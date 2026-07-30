@@ -8,7 +8,7 @@
 - [x] Fase 1 — Dominio, modelos y Alembic
 - [x] Fase 2 — Auth JWT
 - [x] Fase 3 — Endpoints de Projects (Repository + UoW)
-- [ ] Fase 4 — Endpoints de Tasks
+- [x] Fase 4 — Endpoints de Tasks
 - [ ] Fase 5 — Detección de riesgo y motor de priorización
 - [ ] Fase 6 — Seed de datos del Excel
 - [ ] Fase 7 — Frontend base + Auth
@@ -19,7 +19,7 @@
 
 ## Última fase completada
 
-**Fase 3** — 2026-07-30 12:48 CST
+**Fase 4** — 2026-07-30 12:53 CST
 
 ## Decisiones de arquitectura
 

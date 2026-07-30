@@ -105,7 +105,7 @@ class ProjectRepository:
         open_result = await self._session.execute(
             select(func.count(TaskModel.id))
             .where(TaskModel.project_code == project_code)
-            .where(TaskModel.status.notin_(["Completed", "Cancelled"])) # Customize based on enums
+            .where(TaskModel.status != "Completada")
         )
         open_count = open_result.scalar() or 0
         

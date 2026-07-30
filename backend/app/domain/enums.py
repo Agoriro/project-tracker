@@ -49,6 +49,7 @@ class TaskStatus(StrEnum):
     EN_PROGRESO = "En progreso"
     EN_REVISION = "En revision"
     BLOQUEADA = "Bloqueada"
+    COMPLETADA = "Completada"
 
 
 class Currency(StrEnum):
