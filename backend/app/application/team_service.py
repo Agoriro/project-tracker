@@ -2,7 +2,7 @@
 
 from typing import Sequence
 
-from app.api.dtos.team_dtos import TeamMemberCreate
+from app.api.dtos.team_dtos import TeamMemberCreate, TeamMemberUpdate
 from app.domain.entities import TeamMember
 from app.infrastructure.repositories.team_repository import TeamRepository
 
@@ -45,3 +45,16 @@ class TeamService:
             role=data.role,
         )
         return await self._repo.create(member)
+
+    async def update_team_member(
+        self, member_alias: str, data: TeamMemberUpdate
+    ) -> TeamMember:
+        """Update fields of an existing team member."""
+        member = await self._repo.get_by_alias(member_alias)
+        if not member:
+            raise TeamError(f"Team member '{member_alias}' not found.", status_code=404)
+
+        if data.role is not None:
+            member.role = data.role
+
+        return await self._repo.update(member)

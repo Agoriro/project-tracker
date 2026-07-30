@@ -1,10 +1,13 @@
 import { serverFetch } from "@/lib/api";
 import { TeamMember } from "@/types/team";
-import { Users, Briefcase, CheckSquare, AlertTriangle, AlertCircle } from "lucide-react";
+import { Users, Briefcase, CheckSquare, AlertTriangle, AlertCircle, UserPlus, Edit, Info } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 async function getTeamMembers(): Promise<TeamMember[]> {
   const res = await serverFetch("/team/");
   if (!res.ok) {
+    if (res.status === 401) redirect("/login");
     console.error("Failed to fetch team members", await res.text());
     return [];
   }
@@ -21,9 +24,38 @@ export default async function TeamPage() {
           <h1 className="text-2xl font-bold text-white tracking-tight">Equipo</h1>
           <p className="text-sm text-slate-400 mt-1">Carga de trabajo y métricas por miembro del equipo.</p>
         </div>
-        <div className="flex gap-3">
-          <div className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-sm text-slate-400">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/dashboard/team/new"
+            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold py-2 px-4 rounded-xl transition-colors shadow-lg shadow-indigo-500/20"
+          >
+            <UserPlus className="w-4 h-4" />
+            Nuevo Miembro
+          </Link>
+          <div className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-sm text-slate-400 font-medium">
             {team.length} Miembros
+          </div>
+        </div>
+      </div>
+
+      {/* Leyenda explicativa de las abreviaturas */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 text-xs shadow-sm">
+        <div className="flex items-center gap-2 text-slate-400 font-medium">
+          <Info className="w-4 h-4 text-indigo-400 shrink-0" />
+          <span>Leyenda — Desglose de Proyectos por Tipo de Compromiso:</span>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
+            <span className="font-bold text-indigo-400">DG</span>
+            <span className="text-slate-300">Diagnóstico</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
+            <span className="font-bold text-indigo-400">PR</span>
+            <span className="text-slate-300">Proyecto</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
+            <span className="font-bold text-indigo-400">MT</span>
+            <span className="text-slate-300">Mantenimiento o Recurrente</span>
           </div>
         </div>
       </div>
@@ -48,6 +80,14 @@ export default async function TeamPage() {
                     <p className="text-xs text-slate-400">{member.role}</p>
                   </div>
                 </div>
+
+                <Link
+                  href={`/dashboard/team/${encodeURIComponent(member.member_alias)}/edit`}
+                  className="p-1.5 text-slate-500 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+                  title="Editar Miembro"
+                >
+                  <Edit className="w-4 h-4" />
+                </Link>
               </div>
 
               <div className="space-y-4">

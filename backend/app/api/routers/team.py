@@ -5,7 +5,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.api.dependencies import get_current_user, get_team_service
-from app.api.dtos.team_dtos import TeamMemberCreate, TeamMemberResponse
+from app.api.dtos.team_dtos import TeamMemberCreate, TeamMemberResponse, TeamMemberUpdate
 from app.application.team_service import TeamError, TeamService
 
 # All endpoints in this router require an authenticated user
@@ -59,5 +59,22 @@ async def create_team_member(
     """Create a new team member."""
     try:
         return await team_service.create_team_member(data)
+    except TeamError as e:
+        raise HTTPException(status_code=e.status_code, detail=str(e))
+
+
+@router.patch(
+    "/{member_alias}",
+    response_model=TeamMemberResponse,
+    summary="Update a team member",
+)
+async def update_team_member(
+    member_alias: str,
+    data: TeamMemberUpdate,
+    team_service: Annotated[TeamService, Depends(get_team_service)],
+):
+    """Update fields of an existing team member by their alias."""
+    try:
+        return await team_service.update_team_member(member_alias, data)
     except TeamError as e:
         raise HTTPException(status_code=e.status_code, detail=str(e))

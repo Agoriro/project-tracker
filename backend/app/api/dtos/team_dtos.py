@@ -15,6 +15,11 @@ class TeamMemberCreate(TeamMemberBase):
     pass
 
 
+class TeamMemberUpdate(BaseModel):
+    """Payload to update an existing team member."""
+    role: Optional[str] = Field(None, max_length=200)
+
+
 class TeamMemberResponse(TeamMemberBase):
     """Public team member info returned to the client, including metrics."""
     
