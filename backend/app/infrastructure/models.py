@@ -74,6 +74,10 @@ class ProjectModel(Base):
     open_tasks: Mapped[int] = mapped_column(Integer, default=0)
     overdue_tasks: Mapped[int] = mapped_column(Integer, default=0)
 
+    # Risk Engine metrics
+    risk_score: Mapped[int] = mapped_column(Integer, default=0)
+    risk_level: Mapped[str] = mapped_column(String(50), default="Low")
+
     # Text fields
     blockers: Mapped[str | None] = mapped_column(Text, nullable=True)
     summary: Mapped[str | None] = mapped_column(Text, nullable=True)

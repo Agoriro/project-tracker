@@ -28,15 +28,18 @@ class RiskEngineService:
         }
 
     async def _evaluate_projects(self) -> int:
-        """Evaluate projects and flag them 'En riesgo' if conditions are met.
+        """Evaluate projects and calculate risk score and risk level.
         
-        Condition: Project has > 2 overdue tasks, AND at least one of them
-        is ALTA or CRITICA priority.
+        Scoring:
+        - +10 points for each high/critical open/overdue task.
+        - +5 points for each high/critical task.
+        - +3 points for each blocked task.
+        
+        Levels:
+        - Score >= 20 -> High
+        - Score >= 10 -> Medium
+        - Score < 10  -> Low
         """
-        # Find projects matching the condition
-        # This can be done efficiently in SQL or by loading and iterating.
-        # Let's do it in Python for clarity on the heuristic logic.
-        
         result = await self._session.execute(
             select(ProjectModel).where(ProjectModel.status == "Activo")
         )
@@ -44,22 +47,52 @@ class RiskEngineService:
         
         flagged_count = 0
         for project in projects:
-            if project.health == Health.EN_RIESGO:
-                continue # Already at risk
+            score = 0
+            
+            # Fetch all non-completed tasks for this project
+            tasks_result = await self._session.execute(
+                select(TaskModel)
+                .where(TaskModel.project_code == project.project_code)
+                .where(TaskModel.status != "Completada")
+            )
+            tasks = tasks_result.scalars().all()
+            
+            for task in tasks:
+                if task.status == "Bloqueada":
+                    score += 3
                 
-            if project.overdue_tasks > 2:
-                # Check priority of overdue tasks
-                overdue_tasks_result = await self._session.execute(
-                    select(TaskModel)
-                    .where(TaskModel.project_code == project.project_code)
-                    .where(TaskModel.is_overdue == True)
-                    .where(TaskModel.priority.in_([TaskPriority.ALTA, TaskPriority.CRITICA]))
-                )
-                high_priority_overdue = overdue_tasks_result.scalars().first()
+                if task.priority in [TaskPriority.ALTA, TaskPriority.CRITICA]:
+                    score += 5
+                    if task.is_overdue:
+                        score += 5 # Additional 5 points (Total 10)
+                        
+            # Determine level
+            level = "Low"
+            health = Health.SANO
+            
+            if score >= 20:
+                level = "High"
+                health = Health.EN_RIESGO
+            elif score >= 10:
+                level = "Medium"
+                health = Health.EN_RIESGO
+            
+            # Compute task metrics
+            open_tasks_count = len(tasks)
+            overdue_tasks_count = sum(1 for t in tasks if t.is_overdue)
+
+            # Check if anything changed
+            if (project.risk_score != score or 
+                project.risk_level != level or 
+                project.open_tasks != open_tasks_count or 
+                project.overdue_tasks != overdue_tasks_count):
                 
-                if high_priority_overdue:
-                    project.health = Health.EN_RIESGO
-                    flagged_count += 1
+                project.risk_score = score
+                project.risk_level = level
+                project.health = health
+                project.open_tasks = open_tasks_count
+                project.overdue_tasks = overdue_tasks_count
+                flagged_count += 1
                     
         await self._session.flush()
         return flagged_count

@@ -73,5 +73,7 @@ class ProjectResponse(ProjectBase):
     
     open_tasks: int
     overdue_tasks: int
+    risk_score: int
+    risk_level: str
 
     model_config = {"from_attributes": True}

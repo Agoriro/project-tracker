@@ -42,6 +42,10 @@ class Project:
     # Task counters (denormalized for quick access)
     open_tasks: int = 0
     overdue_tasks: int = 0
+    
+    # Risk Engine metrics
+    risk_score: int = 0
+    risk_level: str = "Low"
 
     # Text fields
     blockers: str | None = None

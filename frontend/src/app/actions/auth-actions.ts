@@ -61,6 +61,14 @@ export async function login(prevState: any, formData: FormData) {
       }
     }
 
+    // Run Risk Engine asynchronously so metrics are updated by the time user lands on dashboard
+    fetch(`${getApiUrl()}/risk/evaluate`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${data.access_token}`
+      }
+    }).catch(err => console.error("Failed to trigger Risk Engine on login:", err));
+
   } catch (error) {
     console.error("Login Error:", error);
     return { error: "Failed to connect to the server." };

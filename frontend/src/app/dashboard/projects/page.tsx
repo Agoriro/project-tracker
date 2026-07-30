@@ -1,7 +1,10 @@
 import { serverFetch } from "@/lib/api";
 import { Project } from "@/types/project";
 import { Badge } from "@/components/ui/badge";
-import { AlertCircle, CheckCircle2, Clock, AlertTriangle } from "lucide-react";
+import { AlertCircle, CheckCircle2, Clock, AlertTriangle, Plus, Edit } from "lucide-react";
+import Link from "next/link";
+
+import { RunRiskEngineButton } from "@/components/RunRiskEngineButton";
 
 async function getProjects(): Promise<Project[]> {
   const res = await serverFetch("/projects/");
@@ -33,6 +36,9 @@ function getRiskLevelVariant(level?: string) {
 export default async function ProjectsPage() {
   const projects = await getProjects();
 
+  // Sort projects by risk score descending (highest risk first)
+  projects.sort((a, b) => (b.risk_score || 0) - (a.risk_score || 0));
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -40,8 +46,15 @@ export default async function ProjectsPage() {
           <h1 className="text-2xl font-bold text-white tracking-tight">Proyectos</h1>
           <p className="text-sm text-slate-400 mt-1">Vista operativa y nivel de riesgo del portafolio.</p>
         </div>
-        <div className="flex gap-3">
-          {/* Future implementation: Filters or Export */}
+        <div className="flex items-center gap-3">
+          <RunRiskEngineButton />
+          <Link 
+            href="/dashboard/projects/new"
+            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold py-2 px-4 rounded-xl transition-colors shadow-lg shadow-indigo-500/20"
+          >
+            <Plus className="w-4 h-4" />
+            Nuevo Proyecto
+          </Link>
           <div className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-sm text-slate-400">
             {projects.length} Proyectos Totales
           </div>
@@ -54,18 +67,20 @@ export default async function ProjectsPage() {
             <thead className="text-xs text-slate-400 uppercase bg-slate-950/50 border-b border-slate-800">
               <tr>
                 <th className="px-6 py-4 font-medium">Código</th>
-                <th className="px-6 py-4 font-medium">Proyecto</th>
-                <th className="px-6 py-4 font-medium">Cliente</th>
-                <th className="px-6 py-4 font-medium">Owner</th>
+                <th className="px-6 py-4 font-medium text-left">Proyecto</th>
+                <th className="px-6 py-4 font-medium text-left">Cliente</th>
+                <th className="px-6 py-4 font-medium text-left">Tipo API</th>
+                <th className="px-6 py-4 font-medium text-left">Owner</th>
                 <th className="px-6 py-4 font-medium">Salud</th>
                 <th className="px-6 py-4 font-medium text-center">Tareas Abiertas</th>
                 <th className="px-6 py-4 font-medium text-center">Riesgo</th>
+                <th className="px-6 py-4 font-medium text-center">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/50">
               {projects.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-8 text-center text-slate-500">
+                  <td colSpan={9} className="px-6 py-8 text-center text-slate-500">
                     No hay proyectos registrados o no se pudieron cargar.
                   </td>
                 </tr>
@@ -81,6 +96,11 @@ export default async function ProjectsPage() {
                     </td>
                     <td className="px-6 py-4 text-slate-300">
                       {project.client_alias}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                        {project.project_type_api || "N/A"}
+                      </span>
                     </td>
                     <td className="px-6 py-4 text-slate-300">
                       {project.owner_alias || "-"}
@@ -115,6 +135,15 @@ export default async function ProjectsPage() {
                           </span>
                         )}
                       </div>
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <Link 
+                        href={`/dashboard/projects/${project.project_code}/edit`}
+                        className="inline-flex items-center justify-center p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+                        title="Editar Proyecto"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Link>
                     </td>
                   </tr>
                 ))

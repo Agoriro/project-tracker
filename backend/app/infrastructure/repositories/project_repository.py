@@ -55,6 +55,8 @@ class ProjectRepository:
             recent_completed_examples=project.recent_completed_examples,
             next_step=project.next_step,
             notes=project.notes,
+            risk_score=project.risk_score,
+            risk_level=project.risk_level,
         )
         self._session.add(model)
         await self._session.flush()
@@ -92,6 +94,8 @@ class ProjectRepository:
         model.recent_completed_examples = project.recent_completed_examples
         model.next_step = project.next_step
         model.notes = project.notes
+        model.risk_score = project.risk_score
+        model.risk_level = project.risk_level
 
         await self._session.flush()
         await self._session.refresh(model)
@@ -151,4 +155,6 @@ def _to_entity(model: ProjectModel) -> Project:
         recent_completed_examples=model.recent_completed_examples,
         next_step=model.next_step,
         notes=model.notes,
+        risk_score=model.risk_score,
+        risk_level=model.risk_level,
     )
