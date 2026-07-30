@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routers import auth, projects, tasks
+from app.api.routers import auth, projects, tasks, team, risk
 from app.config import settings
 
 
@@ -44,6 +44,8 @@ app.include_router(auth.router, prefix="/api")
 app.include_router(projects.router, prefix="/api")
 app.include_router(tasks.router, prefix="/api")
 app.include_router(tasks.projects_tasks_router, prefix="/api")
+app.include_router(team.router, prefix="/api")
+app.include_router(risk.router, prefix="/api")
 
 
 @app.get(

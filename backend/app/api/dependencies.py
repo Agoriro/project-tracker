@@ -9,10 +9,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.application.auth_service import AuthError, AuthService
 from app.application.project_service import ProjectService
 from app.application.task_service import TaskService
+from app.application.team_service import TeamService
 from app.domain.entities import User
 from app.infrastructure.database import get_db
 from app.infrastructure.repositories.project_repository import ProjectRepository
 from app.infrastructure.repositories.task_repository import TaskRepository
+from app.infrastructure.repositories.team_repository import TeamRepository
 from app.infrastructure.repositories.user_repository import UserRepository
 
 # OAuth2 scheme for Swagger UI (expects token in Authorization header)
@@ -60,6 +62,20 @@ def get_task_service(
 ) -> TaskService:
     """Dependency for TaskService."""
     return TaskService(task_repo, project_repo)
+
+
+def get_team_repository(
+    session: Annotated[AsyncSession, Depends(get_db)]
+) -> TeamRepository:
+    """Dependency for TeamRepository."""
+    return TeamRepository(session)
+
+
+def get_team_service(
+    team_repo: Annotated[TeamRepository, Depends(get_team_repository)]
+) -> TeamService:
+    """Dependency for TeamService."""
+    return TeamService(team_repo)
 
 
 async def get_current_user(
