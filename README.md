@@ -96,3 +96,18 @@ El motor de riesgos analítico (`RiskEngineService`) escanea y evalúa el portaf
 - **Score ≥ 20**: Nivel **High** (Salud: *En riesgo*)
 - **Score ≥ 10**: Nivel **Medium** (Salud: *En riesgo*)
 - **Score < 10**: Nivel **Low** (Salud: *Sano*)
+
+---
+
+## 📌 Próximos Pasos y Hoja de Ruta (To-Do List)
+
+Las siguientes funcionalidades están programadas para las próximas iteraciones de desarrollo:
+
+- [ ] **Creación y Gestión de Usuarios de Acceso a la Aplicación:**
+  - Módulo de administración para crear, editar, activar/desactivar y gestionar las credenciales de los usuarios que pueden iniciar sesión en el sistema.
+- [ ] **Roles de Usuario y Matriz de Permisos (RBAC):**
+  - Implementación de control de acceso basado en roles (*Role-Based Access Control*) con niveles de permisos por rol (*Administrador, Project Manager, Tech Lead, Auditor/Viewer*), restringiendo accesos a ediciones de proyectos, tareas y equipo según el rol del usuario autenticado.
+- [ ] **Actualización Masiva de Tareas (Bulk Update UI):**
+  - Interfaz gráfica con selección múltiple mediante checkboxes en la grilla para cambiar masivamente el estado (*Pendiente, En Progreso, Bloqueada, Completada*), la prioridad o las fechas límite de un lote de tareas seleccionadas.
+- [ ] **Reasignación Masiva de Tareas (Bulk Reassignment):**
+  - Herramienta para transferir en lote múltiples tareas seleccionadas de un responsable a otro integrante del equipo en una sola operación.
