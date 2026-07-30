@@ -10,7 +10,7 @@
 - [x] Fase 3 — Endpoints de Projects (Repository + UoW)
 - [x] Fase 4 — Endpoints de Tasks
 - [x] Fase 5 — Detección de riesgo y motor de priorización
-- [ ] Fase 6 — Seed de datos del Excel
+- [x] Fase 6 — Seed de datos del Excel
 - [ ] Fase 7 — Frontend base + Auth
 - [ ] Fase 8 — Vista operativa de proyectos
 - [ ] Fase 9 — Dashboard y vista de tareas
@@ -19,7 +19,7 @@
 
 ## Última fase completada
 
-**Fase 5** — 2026-07-30 12:56 CST
+**Fase 6** — 2026-07-30 13:09 CST
 
 ## Decisiones de arquitectura
 
