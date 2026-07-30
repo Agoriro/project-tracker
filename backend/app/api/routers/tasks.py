@@ -23,6 +23,22 @@ projects_tasks_router = APIRouter(
 )
 
 
+@router.get(
+    "",
+    response_model=list[TaskResponse],
+    summary="List all tasks globally",
+)
+async def list_all_tasks(
+    task_service: Annotated[TaskService, Depends(get_task_service)],
+    skip: int = 0,
+    limit: int = 500,
+):
+    """Retrieve all tasks across all projects."""
+    try:
+        return await task_service.get_all_tasks(skip, limit)
+    except TaskError as e:
+        raise HTTPException(status_code=e.status_code, detail=str(e))
+
 @projects_tasks_router.get(
     "",
     response_model=list[TaskResponse],

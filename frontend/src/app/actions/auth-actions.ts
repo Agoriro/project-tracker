@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getApiUrl } from "@/lib/api";
 
-export async function login(formData: FormData) {
+export async function login(prevState: any, formData: FormData) {
   const username = formData.get("username") as string | null;
   const password = formData.get("password") as string | null;
 

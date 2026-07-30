@@ -24,6 +24,16 @@ class TaskRepository:
         row = result.scalar_one_or_none()
         return _to_entity(row) if row else None
 
+    async def get_all(self, skip: int = 0, limit: int = 500) -> Sequence[Task]:
+        """Get all tasks across all projects."""
+        result = await self._session.execute(
+            select(TaskModel)
+            .order_by(TaskModel.created_at.desc())
+            .offset(skip)
+            .limit(limit)
+        )
+        return [_to_entity(row) for row in result.scalars().all()]
+
     async def get_by_project(
         self, project_code: str, skip: int = 0, limit: int = 100
     ) -> Sequence[Task]:

@@ -12,7 +12,8 @@ async function getProjects(): Promise<Project[]> {
   return res.json();
 }
 
-function getHealthBadgeVariant(health: string) {
+function getHealthBadgeVariant(health?: string) {
+  if (!health) return "secondary";
   const h = health.toLowerCase();
   if (h.includes("bloqueado")) return "destructive";
   if (h.includes("riesgo")) return "warning";
@@ -20,7 +21,8 @@ function getHealthBadgeVariant(health: string) {
   return "secondary";
 }
 
-function getRiskLevelVariant(level: string) {
+function getRiskLevelVariant(level?: string) {
+  if (!level) return "secondary";
   const l = level.toLowerCase();
   if (l === "high") return "destructive";
   if (l === "medium") return "warning";

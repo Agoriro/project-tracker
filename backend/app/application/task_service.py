@@ -26,6 +26,10 @@ class TaskService:
         self._task_repo = task_repo
         self._project_repo = project_repo
 
+    async def get_all_tasks(self, skip: int = 0, limit: int = 500) -> Sequence[Task]:
+        """Retrieve all tasks globally."""
+        return await self._task_repo.get_all(skip=skip, limit=limit)
+
     async def get_tasks_by_project(
         self, project_code: str, skip: int = 0, limit: int = 100
     ) -> Sequence[Task]:
