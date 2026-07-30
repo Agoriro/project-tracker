@@ -39,6 +39,22 @@ async def list_all_tasks(
     except TaskError as e:
         raise HTTPException(status_code=e.status_code, detail=str(e))
 
+
+@router.get(
+    "/{task_code}",
+    response_model=TaskResponse,
+    summary="Get a single task by code",
+)
+async def get_task(
+    task_code: str,
+    task_service: Annotated[TaskService, Depends(get_task_service)],
+):
+    """Retrieve details for a single task by its task_code."""
+    try:
+        return await task_service.get_task_by_code(task_code)
+    except TaskError as e:
+        raise HTTPException(status_code=e.status_code, detail=str(e))
+
 @projects_tasks_router.get(
     "",
     response_model=list[TaskResponse],

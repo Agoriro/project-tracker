@@ -6,9 +6,14 @@ import Link from "next/link";
 
 import { RunRiskEngineButton } from "@/components/RunRiskEngineButton";
 
+import { redirect } from "next/navigation";
+
 async function getProjects(): Promise<Project[]> {
   const res = await serverFetch("/projects/");
   if (!res.ok) {
+    if (res.status === 401) {
+      redirect("/login");
+    }
     console.error("Failed to fetch projects", await res.text());
     return [];
   }

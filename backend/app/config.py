@@ -12,7 +12,7 @@ class Settings(BaseSettings):
 
     # Auth / JWT
     secret_key: str = "dev-only-secret-key-change-in-production-abc123xyz"
-    access_token_expire_minutes: int = 15
+    access_token_expire_minutes: int = 10080  # 7 days (10080 minutes)
     refresh_token_expire_days: int = 7
 
     # CORS

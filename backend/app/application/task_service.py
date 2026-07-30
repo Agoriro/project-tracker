@@ -30,6 +30,13 @@ class TaskService:
         """Retrieve all tasks globally."""
         return await self._task_repo.get_all(skip=skip, limit=limit)
 
+    async def get_task_by_code(self, task_code: str) -> Task:
+        """Retrieve a specific task by code."""
+        task = await self._task_repo.get_by_code(task_code)
+        if not task:
+            raise TaskError(f"Task '{task_code}' not found.", status_code=404)
+        return task
+
     async def get_tasks_by_project(
         self, project_code: str, skip: int = 0, limit: int = 100
     ) -> Sequence[Task]:

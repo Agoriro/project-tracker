@@ -36,7 +36,7 @@ export async function login(prevState: any, formData: FormData) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: 15 * 60, // 15 minutes to match backend expiration
+      maxAge: 7 * 24 * 60 * 60, // 7 days
       path: "/",
     });
     
