@@ -73,12 +73,13 @@ Una vez completado, visita:
 
 ---
 
-## 📊 Grilla Interactiva de Proyectos
+## 📊 Grilla Interactiva y Analítica de Proyectos
 
 - **Buscador General:** Búsqueda rápida por Código de Proyecto, Nombre de Proyecto o Cliente.
 - **Filtros Combinables simultáneos:** 5 desplegables para filtrar por **Cliente**, **Tipo API**, **Owner**, **Salud** (Sano, En riesgo, Bloqueado) y **Nivel de Riesgo** (High, Medium, Low).
 - **Indicador de Riesgo:** Renderizado explícito de `Score: 0` para proyectos con riesgo nulo o de baja prioridad.
 - **Paginación a 25 Registros:** Paginación optimizada para listas grandes con reseteo automático al aplicar o limpiar filtros.
+- **Analítica Visual:** Gráficos circulares Donut para salud del portafolio, gráficos de barras por tipo de compromiso y tarjetas de clasificación por severidad de riesgo.
 
 ---
 
@@ -111,3 +112,13 @@ Las siguientes funcionalidades están programadas para las próximas iteraciones
   - Interfaz gráfica con selección múltiple mediante checkboxes en la grilla para cambiar masivamente el estado (*Pendiente, En Progreso, Bloqueada, Completada*), la prioridad o las fechas límite de un lote de tareas seleccionadas.
 - [ ] **Reasignación Masiva de Tareas (Bulk Reassignment):**
   - Herramienta para transferir en lote múltiples tareas seleccionadas de un responsable a otro integrante del equipo en una sola operación.
+- [ ] **Sistema de Alertas y Notificaciones Automáticas (Slack / Teams / Email):**
+  - Notificaciones en tiempo real cuando un proyecto escala a riesgo **High** o entra en estado **Bloqueado**, con alertas automáticas a 24-48 horas del vencimiento de tareas.
+- [ ] **Vista Kanban Interactiva para Tareas (Drag & Drop):**
+  - Tablero visual por columnas (*Pendiente, En Progreso, Bloqueada, Completada*) que permite cambiar el estado de las tareas arrastrando y soltando tarjetas (*drag-and-drop*).
+- [ ] **Historial de Auditoría y Bitácora de Cambios (Audit Logs & Activity Stream):**
+  - Registro cronológico detallado que almacena qué usuario modificó un proyecto, alteró la prioridad de una tarea o cambió la asignación de un integrante.
+- [ ] **Generador de Reportes Ejecutivos en 1-Clic (PDF / Excel):**
+  - Exportación de informes ejecutivos en PDF con diseño listo para presentar a la alta dirección o a los clientes, y exportación de datos filtrados a archivos Excel/CSV.
+- [ ] **Asistente de IA para el Project Manager (IA Copilot PM):**
+  - Integración con modelos de IA para analizar proyectos, proponer automáticamente borradores de *"Siguiente Paso Claro"* y recomendar la redistribución óptima de carga cuando un miembro esté sobrecargado.
