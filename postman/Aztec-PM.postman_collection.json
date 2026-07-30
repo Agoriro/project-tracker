@@ -1,0 +1,345 @@
+{
+  "info": {
+    "name": "Aztec PM API",
+    "description": "API requests for the Aztec Project Management system.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "let jsonData = pm.response.json();",
+                  "if (jsonData.access_token) {",
+                  "    pm.environment.set(\"access_token\", jsonData.access_token);",
+                  "    console.log(\"Access token automatically saved to environment\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "projectuser",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "password123",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Projects",
+      "item": [
+        {
+          "name": "Get All Projects",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/projects/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Project by Code",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/projects/PRJ-01",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects",
+                "PRJ-01"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_code\": \"PRJ-NEW\",\n  \"engagement_type\": \"Proyecto\",\n  \"client_alias\": \"New Client\",\n  \"project_name\": \"New Important Project\",\n  \"project_type_api\": \"API Integration\",\n  \"stage\": \"Planificación\",\n  \"status\": \"Activo\",\n  \"health\": \"On track\",\n  \"owner_alias\": \"Daniel Rojas\",\n  \"owner_role\": \"Delivery\",\n  \"start_date\": \"2026-08-01\",\n  \"target_date\": \"2026-12-31\",\n  \"business_value\": 50000,\n  \"currency\": \"USD\",\n  \"summary\": \"A brand new project to test creation.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/projects/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Project (Block Risk)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"health\": \"Bloqueado\",\n  \"blockers\": \"Falta de accesos al servidor de base de datos del cliente.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/projects/PRJ-01",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects",
+                "PRJ-01"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Tasks",
+      "item": [
+        {
+          "name": "Get Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/tasks/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Task (Overdue Priority)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_code\": \"PRJ-NEW-T01\",\n  \"project_code\": \"PRJ-NEW\",\n  \"assignee_alias\": \"Camila Torres\",\n  \"assignee_role\": \"Delivery\",\n  \"priority\": \"Alta\",\n  \"status\": \"En progreso\",\n  \"due_date\": \"2026-07-01\",\n  \"is_overdue\": true,\n  \"title\": \"Urgent API Integration\",\n  \"detail\": \"Needs to be completed ASAP.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Task Status (Complete)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Completada\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks/PRJ-NEW-T01",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks",
+                "PRJ-NEW-T01"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Team",
+      "item": [
+        {
+          "name": "Get Team Members",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/team/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "team",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Risk Engine",
+      "item": [
+        {
+          "name": "Evaluate Portfolio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/risk/evaluate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "risk",
+                "evaluate"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
