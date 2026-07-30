@@ -11,7 +11,7 @@
 - [x] Fase 4 — Endpoints de Tasks
 - [x] Fase 5 — Detección de riesgo y motor de priorización
 - [x] Fase 6 — Seed de datos del Excel
-- [ ] Fase 7 — Frontend base + Auth
+- [x] Fase 7 — Frontend base + Auth
 - [ ] Fase 8 — Vista operativa de proyectos
 - [ ] Fase 9 — Dashboard y vista de tareas
 - [ ] Fase 10 — Colección de Postman
@@ -19,7 +19,7 @@
 
 ## Última fase completada
 
-**Fase 6** — 2026-07-30 13:09 CST
+**Fase 7** — 2026-07-30 13:15 CST
 
 ## Decisiones de arquitectura
 
