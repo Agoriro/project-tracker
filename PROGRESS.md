@@ -1,11 +1,11 @@
 # PROGRESS.md — Aztec PM
 
-> Última actualización: 2026-07-30 12:13 CST
+> Última actualización: 2026-07-30 12:25 CST
 
 ## Estado de fases
 
 - [x] Fase 0 — Scaffolding, Docker y `.gitignore`
-- [ ] Fase 1 — Dominio, modelos y Alembic
+- [x] Fase 1 — Dominio, modelos y Alembic
 - [ ] Fase 2 — Auth JWT
 - [ ] Fase 3 — Endpoints de Projects (Repository + UoW)
 - [ ] Fase 4 — Endpoints de Tasks
@@ -19,18 +19,22 @@
 
 ## Última fase completada
 
-**Fase 0** — 2026-07-30 12:13 CST
+**Fase 1** — 2026-07-30 12:25 CST
 
 ## Decisiones de arquitectura
 
 - **Next.js 15.4.3** inicializado con App Router + TypeScript + Tailwind CSS.
-- **`.dockerignore`** añadidos en backend y frontend para reducir context size (frontend pasó de ~425MB a ~5MB).
+- **`.dockerignore`** añadidos en backend y frontend para reducir context size.
 - **Entrypoint del backend** incluye fallback graceful si Alembic no está configurado aún.
-- **Docker healthchecks** implementados en los 3 servicios con intervalos apropiados.
+- **Docker healthchecks** implementados en los 3 servicios.
+- **Enums como `StrEnum`** para serialización JSON nativa y compatibilidad con Pydantic v2.
+- **Enums almacenados como VARCHAR** en PostgreSQL (no PG native enums) para facilitar migraciones futuras sin ALTER TYPE.
+- **FK en `project_code`** (natural key) en vez de FK en `id` (surrogate) — más legible en queries y en el dataset.
+- **Alembic async** configurado con `asyncpg` y autogenerate que detecta los 4 modelos.
 
 ## Desviaciones del plan
 
-- Añadidos `.dockerignore` en backend y frontend (no estaban en el plan pero son necesarios para builds rápidos).
+- Añadidos `.dockerignore` en backend y frontend (mejora de build no prevista).
 
 ## Comandos de verificación
 
@@ -38,20 +42,19 @@
 # Levantar todo
 docker compose up -d --build
 
-# Verificar servicios
-docker compose ps -a
-
-# Health check del backend
+# Health check
 curl http://localhost:8000/health
-# Debe devolver: {"status":"healthy","service":"aztec-pm-backend","version":"0.1.0"}
 
-# Frontend
-# Abrir http://localhost:3000 — debe mostrar la página default de Next.js
+# Verificar tablas en Postgres
+docker compose exec db psql -U aztec_user -d aztec_pm -c "\dt"
 
-# Swagger docs
-# Abrir http://localhost:8000/docs
+# Ejecutar migraciones manualmente
+docker compose exec backend alembic upgrade head
+
+# Estado de migraciones
+docker compose exec backend alembic current
 ```
 
 ## Próximo paso
 
-Iniciar **Fase 1** — Dominio, modelos SQLAlchemy y Alembic.
+Iniciar **Fase 2** — Auth JWT (access token + refresh token + endpoints + tests).
