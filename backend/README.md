@@ -1,41 +1,41 @@
 # Aztec PM - Backend
 
-This is the backend service for Aztec Project Management, built with **Python 3.13** and **FastAPI**.
+Este es el servicio backend para Aztec Project Management, construido con **Python 3.13** y **FastAPI**.
 
-## Architecture
+## Arquitectura
 
-We implemented **Clean Architecture** to ensure the core business logic is completely isolated from external frameworks, databases, and delivery mechanisms.
+Implementamos **Clean Architecture (Arquitectura Limpia)** para asegurar que la lógica de negocio central esté completamente aislada de frameworks externos, bases de datos y mecanismos de entrega.
 
-### Layered Structure
-- **Core (`core/`):** Contains the domain models, custom exceptions, and the `RiskEngineService` which executes the business logic for calculating portfolio risks without relying on any database specifics.
-- **Application (`application/`):** Contains the Use Cases (e.g., `ProjectService`, `TaskService`). These services orchestrate data flow between the repository interfaces and the core business logic.
-- **Infrastructure (`infrastructure/`):** Implements the database access using `SQLAlchemy` (async), `Alembic` for migrations, and PostgreSQL. It contains the concrete repositories (e.g., `SQLAlchemyProjectRepository`).
-- **API (`api/`):** The delivery mechanism. FastAPI routers, request/response models (Pydantic), and dependency injection definitions.
+### Estructura en Capas
+- **Core (`core/`):** Contiene los modelos de dominio, excepciones personalizadas y el `RiskEngineService`, el cual ejecuta la lógica de negocio para calcular los riesgos del portafolio sin depender de ningún detalle específico de la base de datos.
+- **Application (`application/`):** Contiene los Casos de Uso (ej., `ProjectService`, `TaskService`). Estos servicios orquestan el flujo de datos entre las interfaces del repositorio y la lógica de negocio central.
+- **Infrastructure (`infrastructure/`):** Implementa el acceso a la base de datos utilizando `SQLAlchemy` (asíncrono), `Alembic` para las migraciones y PostgreSQL. Contiene los repositorios concretos (ej., `SQLAlchemyProjectRepository`).
+- **API (`api/`):** El mecanismo de entrega. Routers de FastAPI, modelos de petición/respuesta (Pydantic) y las definiciones de inyección de dependencias.
 
-### Why Clean Architecture?
-1. **Testability:** We can test the `RiskEngineService` completely isolated from the database.
-2. **Maintainability:** As Aztec PM scales, we can swap the underlying database or the web framework without touching the business rules.
-3. **Separation of Concerns:** Developers know exactly where to put business rules vs. database queries.
+### ¿Por qué Clean Architecture?
+1. **Testabilidad:** Podemos probar el `RiskEngineService` de forma completamente aislada de la base de datos.
+2. **Mantenibilidad:** A medida que Aztec PM escale, podemos cambiar la base de datos subyacente o el framework web sin tocar las reglas de negocio.
+3. **Separación de Responsabilidades:** Los desarrolladores saben exactamente dónde colocar las reglas de negocio versus las consultas a la base de datos.
 
-## Risk Engine & Prioritization
+## Motor de Riesgos (Risk Engine) y Priorización
 
-The `RiskEngineService` executes a weighted prioritization algorithm. It analyzes metrics like the amount of overdue tasks and blocked statuses to assign a `risk_score` and a `risk_level` (Low, Medium, High). This calculation runs automatically upon project creation and updates.
+El `RiskEngineService` ejecuta un algoritmo de priorización ponderado. Analiza métricas como la cantidad de tareas vencidas y los estados bloqueados para asignar un puntaje de riesgo (`risk_score`) y un nivel de riesgo (`risk_level`: Bajo, Medio, Alto). Este cálculo se ejecuta automáticamente al crear y actualizar proyectos.
 
-## Setup & Running
+## Configuración y Ejecución
 
-The backend is intended to be run via Docker Compose from the root directory:
+El backend está diseñado para ser ejecutado a través de Docker Compose desde el directorio raíz:
 
 ```bash
 docker compose up --build backend
 ```
 
-Upon startup, the `entrypoint.sh` script automatically runs Alembic migrations and executes `seed.py`, which populates the database using the provided Aztec Excel file.
+Durante el arranque, el script `entrypoint.sh` ejecuta automáticamente las migraciones de Alembic y corre `seed.py`, el cual puebla la base de datos utilizando el archivo Excel original de Aztec proporcionado.
 
-## Testing
+## Pruebas (Testing)
 
-Tests are written using `pytest` and `httpx` for async API testing, using an isolated `aiosqlite` in-memory database to prevent side effects.
+Las pruebas están escritas utilizando `pytest` y `httpx` para pruebas de API asíncronas, usando una base de datos en memoria `aiosqlite` aislada para prevenir efectos secundarios.
 
-To run the test suite locally (assuming a virtual environment is active and dependencies are installed):
+Para correr la suite de pruebas localmente (asumiendo que hay un entorno virtual activo y las dependencias están instaladas):
 
 ```bash
 pytest

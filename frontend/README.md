@@ -1,32 +1,32 @@
 # Aztec PM - Frontend
 
-This is the frontend client for Aztec Project Management, built with **Next.js 16** (App Router) and **React 19**.
+Este es el cliente frontend para Aztec Project Management, construido con **Next.js 16** (App Router) y **React 19**.
 
-## Architecture & Technology Choices
+## Arquitectura y Elecciones Tecnológicas
 
-### Server Components & Data Fetching
-We leverage Next.js Server Components heavily across the application. 
-When rendering pages like the Dashboard Overview or the Projects Grid, the Next.js server makes the API calls to the backend via our `serverFetch` wrapper. 
-This provides:
-1. **Performance:** Eliminates client-side loading waterfalls.
-2. **Security:** The JWT access token (stored as an `HttpOnly` cookie) is read directly on the server. The token is never exposed to the browser's JavaScript engine, neutralizing XSS risks.
+### Server Components y Data Fetching (Obtención de Datos)
+Aprovechamos en gran medida los Server Components de Next.js en toda la aplicación. 
+Al renderizar páginas como el Dashboard Overview o la Cuadrícula de Proyectos (Projects Grid), el servidor de Next.js realiza las llamadas a la API hacia el backend a través de nuestro wrapper `serverFetch`. 
+Esto proporciona:
+1. **Rendimiento:** Elimina las cascadas de carga en el lado del cliente (client-side waterfalls).
+2. **Seguridad:** El token de acceso JWT (almacenado como una cookie `HttpOnly`) se lee directamente en el servidor. El token nunca se expone al motor de JavaScript del navegador, neutralizando así los riesgos de ataques XSS.
 
-### Authentication Flow (Proxy & Server Actions)
-- **Server Actions:** Login and Logout are handled via Next.js Server Actions (`src/app/actions/auth-actions.ts`), which securely communicate with the FastAPI backend and set/delete the `HttpOnly` cookie.
-- **Proxy Middleware:** We use Next.js `proxy.ts` (the Next.js 16 evolution of middleware) to protect the `/dashboard` routes. If a user attempts to access the dashboard without a valid token in their cookies, they are immediately redirected to `/login` at the edge, before the page even begins to render.
+### Flujo de Autenticación (Proxy y Server Actions)
+- **Server Actions:** El inicio de sesión (Login) y el cierre de sesión (Logout) se manejan a través de los Server Actions de Next.js (`src/app/actions/auth-actions.ts`), los cuales se comunican de forma segura con el backend en FastAPI y configuran/eliminan la cookie `HttpOnly`.
+- **Proxy Middleware:** Utilizamos `proxy.ts` de Next.js (la evolución del middleware en Next.js 16) para proteger las rutas del `/dashboard`. Si un usuario intenta acceder al dashboard sin un token válido en sus cookies, es redirigido inmediatamente a `/login` en el edge, incluso antes de que la página comience a renderizarse.
 
-### Styling & UI
-The interface is built to be modern, responsive, and premium:
-- **Tailwind CSS 4:** Used for all utility classes and responsive design.
-- **Dynamic Badges:** We use visual indicators (Red, Green, Yellow) to immediately map `status`, `health`, and `risk_level` fields from the API into actionable visual insights for the PM.
-- **Lucide React:** Used for crisp, scalable SVG icons across the dashboard.
+### Estilos e Interfaz de Usuario (UI)
+La interfaz está construida para ser moderna, responsiva y de aspecto premium:
+- **Tailwind CSS 4:** Utilizado para todas las clases de utilidad y el diseño responsivo.
+- **Badges Dinámicos:** Usamos indicadores visuales (Rojo, Verde, Amarillo) para mapear inmediatamente los campos de `status`, `health` y `risk_level` de la API en información visual procesable para el Project Manager.
+- **Lucide React:** Usado para iconos SVG nítidos y escalables en todo el dashboard.
 
-## Setup & Running
+## Configuración y Ejecución
 
-The frontend is intended to be run via Docker Compose from the root directory:
+El frontend está diseñado para ser ejecutado a través de Docker Compose desde el directorio raíz:
 
 ```bash
 docker compose up --build frontend
 ```
 
-The container uses `npm run dev` by default, leveraging Next.js's hot-reloading (via Turbopack) mapped directly to your local file system.
+El contenedor utiliza `npm run dev` por defecto, aprovechando la recarga en caliente (hot-reloading) de Next.js (a través de Turbopack) mapeada directamente a tu sistema de archivos local.
