@@ -1,4 +1,4 @@
-import { serverFetch } from "@/lib/api";
+import { serverFetch, handleUnauthorizedRedirect } from "@/lib/api";
 import { Task } from "@/types/task";
 import { Project } from "@/types/project";
 import { TeamMember } from "@/types/team";
@@ -6,12 +6,10 @@ import { TasksTable } from "@/components/TasksTable";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
-import { redirect } from "next/navigation";
-
 async function getTasks(): Promise<Task[]> {
   const res = await serverFetch("/tasks/");
   if (!res.ok) {
-    if (res.status === 401) redirect("/login");
+    if (res.status === 401) await handleUnauthorizedRedirect();
     console.error("Failed to fetch tasks", await res.text());
     return [];
   }
@@ -21,7 +19,7 @@ async function getTasks(): Promise<Task[]> {
 async function getProjects(): Promise<Project[]> {
   const res = await serverFetch("/projects/");
   if (!res.ok) {
-    if (res.status === 401) redirect("/login");
+    if (res.status === 401) await handleUnauthorizedRedirect();
     return [];
   }
   return res.json();
@@ -30,7 +28,7 @@ async function getProjects(): Promise<Project[]> {
 async function getTeamMembers(): Promise<TeamMember[]> {
   const res = await serverFetch("/team/");
   if (!res.ok) {
-    if (res.status === 401) redirect("/login");
+    if (res.status === 401) await handleUnauthorizedRedirect();
     return [];
   }
   return res.json();

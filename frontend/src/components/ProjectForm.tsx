@@ -199,6 +199,23 @@ export function ProjectForm({ initialData, teamMembers }: ProjectFormProps) {
               </div>
             </>
           )}
+
+          {/* Siguiente Paso Claro */}
+          <div className="space-y-2 col-span-full">
+            <label htmlFor="next_step" className="text-sm font-medium text-slate-300">
+              Siguiente Paso Claro
+            </label>
+            <input 
+              id="next_step"
+              name="next_step" 
+              defaultValue={initialData?.next_step || ""}
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+              placeholder="Ej: Definir arquitectura de microservicios con el cliente antes del 15 de Agosto"
+            />
+            <p className="text-xs text-slate-500">
+              Si un proyecto activo no posee un siguiente paso claro definido, el Motor de Riesgos sumará +5 puntos de penalización de riesgo.
+            </p>
+          </div>
         </div>
 
         <div className="pt-6 flex items-center justify-end gap-4 border-t border-slate-800">

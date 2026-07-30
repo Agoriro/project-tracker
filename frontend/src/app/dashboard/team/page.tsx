@@ -1,13 +1,12 @@
-import { serverFetch } from "@/lib/api";
+import { serverFetch, handleUnauthorizedRedirect } from "@/lib/api";
 import { TeamMember } from "@/types/team";
 import { Users, Briefcase, CheckSquare, AlertTriangle, AlertCircle, UserPlus, Edit, Info } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 async function getTeamMembers(): Promise<TeamMember[]> {
   const res = await serverFetch("/team/");
   if (!res.ok) {
-    if (res.status === 401) redirect("/login");
+    if (res.status === 401) await handleUnauthorizedRedirect();
     console.error("Failed to fetch team members", await res.text());
     return [];
   }

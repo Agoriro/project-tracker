@@ -290,6 +290,15 @@ export function ProjectsTable({ projects }: ProjectsTableProps) {
                     <td className="px-6 py-4">
                       <div className="text-white font-medium">{project.project_name}</div>
                       <div className="text-xs text-slate-500 mt-0.5">{project.engagement_type}</div>
+                      {project.next_step && project.next_step.trim() !== "" ? (
+                        <div className="text-xs text-indigo-300 mt-1 flex items-center gap-1">
+                          <span className="text-slate-500 font-medium">Sig. paso:</span> {project.next_step}
+                        </div>
+                      ) : (
+                        <div className="text-[11px] font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-md inline-flex items-center gap-1 mt-1">
+                          ⚠️ Sin siguiente paso claro (+5 pts)
+                        </div>
+                      )}
                     </td>
                     <td className="px-6 py-4 text-slate-300">
                       {project.client_alias}

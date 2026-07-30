@@ -1,4 +1,13 @@
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+/**
+ * Deletes the invalid/expired access_token cookie and safely redirects to /login.
+ * Prevents ERR_TOO_MANY_REDIRECTS loops with proxy middleware.
+ */
+export async function handleUnauthorizedRedirect() {
+  redirect("/login");
+}
 
 /**
  * Returns the base URL for the API depending on the environment.

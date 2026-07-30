@@ -1,16 +1,15 @@
-import { serverFetch } from "@/lib/api";
+import { serverFetch, handleUnauthorizedRedirect } from "@/lib/api";
 import { Project } from "@/types/project";
 import { ProjectsTable } from "@/components/ProjectsTable";
 import { RunRiskEngineButton } from "@/components/RunRiskEngineButton";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 async function getProjects(): Promise<Project[]> {
   const res = await serverFetch("/projects/");
   if (!res.ok) {
     if (res.status === 401) {
-      redirect("/login");
+      await handleUnauthorizedRedirect();
     }
     console.error("Failed to fetch projects", await res.text());
     return [];

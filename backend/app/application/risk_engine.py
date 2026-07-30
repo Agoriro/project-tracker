@@ -66,6 +66,10 @@ class RiskEngineService:
                     if task.is_overdue:
                         score += 5 # Additional 5 points (Total 10)
                         
+            # Governance Penalty: +5 points if project has no clear next step defined
+            if not project.next_step or not project.next_step.strip() or "sin definir" in project.next_step.lower():
+                score += 5
+                        
             # Determine level
             level = "Low"
             health = Health.SANO

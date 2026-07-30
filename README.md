@@ -90,6 +90,7 @@ El motor de riesgos analítico (`RiskEngineService`) escanea y evalúa el portaf
 - **+5 Puntos** por cada tarea abierta de prioridad **Alta** o **Crítica**.
 - **+5 Puntos adicionales (Total 10 pts)** si la tarea Alta/Crítica está **Vencida** (`is_overdue == true`).
 - **+3 Puntos** por cada tarea en estado **Bloqueada**.
+- **+5 Puntos (Penalización de Gobernanza)** por cada proyecto activo que **NO posea un Siguiente Paso Claro** definido (`next_step`).
 
 ### Niveles de Clasificación
 - **Score ≥ 20**: Nivel **High** (Salud: *En riesgo*)

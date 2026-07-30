@@ -1,4 +1,4 @@
-import { serverFetch } from "@/lib/api";
+import { serverFetch, handleUnauthorizedRedirect } from "@/lib/api";
 import { Project } from "@/types/project";
 import { Task } from "@/types/task";
 import { Briefcase, AlertTriangle, Users } from "lucide-react";
@@ -9,6 +9,10 @@ async function getDashboardData() {
     serverFetch("/tasks/"),
     serverFetch("/team/")
   ]);
+
+  if (projectsRes.status === 401 || tasksRes.status === 401 || teamRes.status === 401) {
+    await handleUnauthorizedRedirect();
+  }
 
   const projects: Project[] = projectsRes.ok ? await projectsRes.json() : [];
   const tasks: Task[] = tasksRes.ok ? await tasksRes.json() : [];

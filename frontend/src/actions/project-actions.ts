@@ -16,6 +16,7 @@ export async function createProject(formData: FormData) {
       health: formData.get("health") as string || "Sano",
       owner_alias: formData.get("owner_alias") as string,
       owner_role: formData.get("owner_role") as string || "PM",
+      next_step: formData.get("next_step") as string || "",
     };
 
     const res = await serverFetch("/projects", {
@@ -60,7 +61,7 @@ export async function updateProject(project_code: string, formData: FormData) {
     const fields = [
       "project_name", "client_alias", "engagement_type", 
       "project_type_api", "stage", "status", "health", 
-      "owner_alias", "owner_role"
+      "owner_alias", "owner_role", "next_step"
     ];
 
     for (const field of fields) {
