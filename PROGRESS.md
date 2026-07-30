@@ -7,7 +7,7 @@
 - [x] Fase 0 — Scaffolding, Docker y `.gitignore`
 - [x] Fase 1 — Dominio, modelos y Alembic
 - [x] Fase 2 — Auth JWT
-- [ ] Fase 3 — Endpoints de Projects (Repository + UoW)
+- [x] Fase 3 — Endpoints de Projects (Repository + UoW)
 - [ ] Fase 4 — Endpoints de Tasks
 - [ ] Fase 5 — Detección de riesgo y motor de priorización
 - [ ] Fase 6 — Seed de datos del Excel
@@ -19,7 +19,7 @@
 
 ## Última fase completada
 
-**Fase 2** — 2026-07-30 12:35 CST
+**Fase 3** — 2026-07-30 12:48 CST
 
 ## Decisiones de arquitectura
 
@@ -33,6 +33,7 @@
 - **Alembic async** configurado con `asyncpg` y autogenerate que detecta los 4 modelos.
 - **Bcrypt nativo:** Se utiliza `bcrypt` directamente en lugar de `passlib` debido a incompatibilidades de passlib con versiones recientes de bcrypt.
 - **Auth Tokens:** JWT (Access Token 15 min) + Refresh Token en cookie HttpOnly (7 días).
+- **Validación Estricta con Enums:** Los DTOs usan los enums definidos (ej. `EngagementType`, `Stage`) asegurando que FastAPI/Pydantic valide automáticamente (HTTP 422) que el payload coincida exactamente con los valores del dataset Aztec.
 
 ## Desviaciones del plan
 

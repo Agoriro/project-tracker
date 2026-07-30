@@ -7,8 +7,10 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.application.auth_service import AuthError, AuthService
+from app.application.project_service import ProjectService
 from app.domain.entities import User
 from app.infrastructure.database import get_db
+from app.infrastructure.repositories.project_repository import ProjectRepository
 from app.infrastructure.repositories.user_repository import UserRepository
 
 # OAuth2 scheme for Swagger UI (expects token in Authorization header)
@@ -27,6 +29,20 @@ def get_auth_service(
 ) -> AuthService:
     """Dependency for AuthService."""
     return AuthService(user_repo)
+
+
+def get_project_repository(
+    session: Annotated[AsyncSession, Depends(get_db)]
+) -> ProjectRepository:
+    """Dependency for ProjectRepository."""
+    return ProjectRepository(session)
+
+
+def get_project_service(
+    project_repo: Annotated[ProjectRepository, Depends(get_project_repository)]
+) -> ProjectService:
+    """Dependency for ProjectService."""
+    return ProjectService(project_repo)
 
 
 async def get_current_user(
