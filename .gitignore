@@ -1,0 +1,28 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Docker volumes / local data
+docker-data/
+postgres-data/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python (root-level catch)
+__pycache__/
+*.pyc
+*.pyo
+
+# Node (root-level catch)
+node_modules/
