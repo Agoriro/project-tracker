@@ -1,0 +1,47 @@
+"""FastAPI dependencies for the application."""
+
+from typing import Annotated
+
+from fastapi import Depends, HTTPException, Request, status
+from fastapi.security import OAuth2PasswordBearer
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.application.auth_service import AuthError, AuthService
+from app.domain.entities import User
+from app.infrastructure.database import get_db
+from app.infrastructure.repositories.user_repository import UserRepository
+
+# OAuth2 scheme for Swagger UI (expects token in Authorization header)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
+
+
+def get_user_repository(
+    session: Annotated[AsyncSession, Depends(get_db)]
+) -> UserRepository:
+    """Dependency for UserRepository."""
+    return UserRepository(session)
+
+
+def get_auth_service(
+    user_repo: Annotated[UserRepository, Depends(get_user_repository)]
+) -> AuthService:
+    """Dependency for AuthService."""
+    return AuthService(user_repo)
+
+
+async def get_current_user(
+    token: Annotated[str, Depends(oauth2_scheme)],
+    auth_service: Annotated[AuthService, Depends(get_auth_service)],
+) -> User:
+    """Dependency to get the current authenticated user.
+
+    Uses the access token from the Authorization bearer header.
+    """
+    try:
+        return await auth_service.get_current_user(token)
+    except AuthError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=str(e),
+            headers={"WWW-Authenticate": "Bearer"},
+        )

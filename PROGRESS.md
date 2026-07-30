@@ -6,7 +6,7 @@
 
 - [x] Fase 0 — Scaffolding, Docker y `.gitignore`
 - [x] Fase 1 — Dominio, modelos y Alembic
-- [ ] Fase 2 — Auth JWT
+- [x] Fase 2 — Auth JWT
 - [ ] Fase 3 — Endpoints de Projects (Repository + UoW)
 - [ ] Fase 4 — Endpoints de Tasks
 - [ ] Fase 5 — Detección de riesgo y motor de priorización
@@ -19,7 +19,7 @@
 
 ## Última fase completada
 
-**Fase 1** — 2026-07-30 12:25 CST
+**Fase 2** — 2026-07-30 12:35 CST
 
 ## Decisiones de arquitectura
 
@@ -31,6 +31,8 @@
 - **Enums almacenados como VARCHAR** en PostgreSQL (no PG native enums) para facilitar migraciones futuras sin ALTER TYPE.
 - **FK en `project_code`** (natural key) en vez de FK en `id` (surrogate) — más legible en queries y en el dataset.
 - **Alembic async** configurado con `asyncpg` y autogenerate que detecta los 4 modelos.
+- **Bcrypt nativo:** Se utiliza `bcrypt` directamente en lugar de `passlib` debido a incompatibilidades de passlib con versiones recientes de bcrypt.
+- **Auth Tokens:** JWT (Access Token 15 min) + Refresh Token en cookie HttpOnly (7 días).
 
 ## Desviaciones del plan
 
