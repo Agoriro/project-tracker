@@ -1,10 +1,10 @@
 # PROGRESS.md — Aztec PM
 
-> Última actualización: 2026-07-30 11:45 CST
+> Última actualización: 2026-07-30 12:13 CST
 
 ## Estado de fases
 
-- [ ] Fase 0 — Scaffolding, Docker y `.gitignore`
+- [x] Fase 0 — Scaffolding, Docker y `.gitignore`
 - [ ] Fase 1 — Dominio, modelos y Alembic
 - [ ] Fase 2 — Auth JWT
 - [ ] Fase 3 — Endpoints de Projects (Repository + UoW)
@@ -19,32 +19,39 @@
 
 ## Última fase completada
 
-Ninguna — plan en revisión.
+**Fase 0** — 2026-07-30 12:13 CST
 
 ## Decisiones de arquitectura
 
-_(Se irán documentando conforme avance el proyecto)_
+- **Next.js 15.4.3** inicializado con App Router + TypeScript + Tailwind CSS.
+- **`.dockerignore`** añadidos en backend y frontend para reducir context size (frontend pasó de ~425MB a ~5MB).
+- **Entrypoint del backend** incluye fallback graceful si Alembic no está configurado aún.
+- **Docker healthchecks** implementados en los 3 servicios con intervalos apropiados.
 
 ## Desviaciones del plan
 
-_(Ninguna hasta el momento)_
+- Añadidos `.dockerignore` en backend y frontend (no estaban en el plan pero son necesarios para builds rápidos).
 
 ## Comandos de verificación
 
 ```bash
 # Levantar todo
-docker compose up
+docker compose up -d --build
 
-# Ejecutar seed
-make seed
+# Verificar servicios
+docker compose ps -a
 
-# Tests backend
-make test-backend
-
-# Healthcheck
+# Health check del backend
 curl http://localhost:8000/health
+# Debe devolver: {"status":"healthy","service":"aztec-pm-backend","version":"0.1.0"}
+
+# Frontend
+# Abrir http://localhost:3000 — debe mostrar la página default de Next.js
+
+# Swagger docs
+# Abrir http://localhost:8000/docs
 ```
 
 ## Próximo paso
 
-Esperar aprobación del `PLAN.md` para iniciar Fase 0.
+Iniciar **Fase 1** — Dominio, modelos SQLAlchemy y Alembic.
