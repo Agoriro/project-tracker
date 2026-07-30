@@ -13,13 +13,13 @@
 - [x] Fase 6 — Seed de datos del Excel
 - [x] Fase 7 — Frontend base + Auth
 - [x] Fase 8 — Vista operativa de proyectos
-- [ ] Fase 9 — Dashboard y vista de tareas
+- [x] Fase 9 — Dashboard y vista de tareas
 - [ ] Fase 10 — Colección de Postman
 - [ ] Fase 11 — READMEs y pulido final
 
 ## Última fase completada
 
-**Fase 8** — 2026-07-30 13:22 CST
+**Fase 9** — 2026-07-30 13:28 CST
 
 ## Decisiones de arquitectura
 
