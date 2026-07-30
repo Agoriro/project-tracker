@@ -12,14 +12,14 @@
 - [x] Fase 5 — Detección de riesgo y motor de priorización
 - [x] Fase 6 — Seed de datos del Excel
 - [x] Fase 7 — Frontend base + Auth
-- [ ] Fase 8 — Vista operativa de proyectos
+- [x] Fase 8 — Vista operativa de proyectos
 - [ ] Fase 9 — Dashboard y vista de tareas
 - [ ] Fase 10 — Colección de Postman
 - [ ] Fase 11 — READMEs y pulido final
 
 ## Última fase completada
 
-**Fase 7** — 2026-07-30 13:15 CST
+**Fase 8** — 2026-07-30 13:22 CST
 
 ## Decisiones de arquitectura
 
