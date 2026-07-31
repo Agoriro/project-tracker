@@ -32,7 +32,7 @@ export async function createProject(formData: FormData) {
         if (errorData.detail && errorData.detail.includes("already exists")) {
           errorMessage = "Ya existe un proyecto con este código. Intenta con uno diferente.";
         } else {
-          errorMessage = errorData.detail || errorText;
+          errorMessage = errorData.detail || "Error al procesar la solicitud.";
         }
       } catch {
         const errorText = await res.text();

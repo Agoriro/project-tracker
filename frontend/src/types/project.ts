@@ -18,6 +18,7 @@ export interface Project {
   blockers?: string;
   summary?: string;
   recent_completed_examples?: string;
+  next_step?: string;
   risk_score: number;
   risk_level: string;
 }

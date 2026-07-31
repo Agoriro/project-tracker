@@ -284,7 +284,7 @@ export function TasksTable({ tasks, projects, teamMembers }: TasksTableProps) {
                               {task.due_date}
                             </span>
                             {task.is_overdue && (
-                              <AlertCircle className="w-4 h-4 text-red-500" title="Tarea Vencida" />
+                              <span title="Tarea Vencida"><AlertCircle className="w-4 h-4 text-red-500" /></span>
                             )}
                           </>
                         ) : (
