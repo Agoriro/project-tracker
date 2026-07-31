@@ -61,30 +61,35 @@ export default function DashboardLayout({
         } bg-slate-900 border-r border-slate-800 flex flex-col md:fixed md:h-full md:inset-y-0 z-10 transition-all duration-300 ease-in-out`}
       >
         {/* Sidebar Header & Toggle Button */}
-        <div className={`p-4 flex items-center ${isCollapsed ? "justify-center" : "justify-between"}`}>
-          <Link href="/dashboard" className="flex items-center space-x-3 overflow-hidden">
-            <div className="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0">
-              <Briefcase className="w-5 h-5 text-indigo-400" />
-            </div>
-            {!isCollapsed && (
-              <span className="text-lg font-bold text-white tracking-tight whitespace-nowrap">
-                Aztec PM
-              </span>
-            )}
-          </Link>
+        <div className="p-4 flex items-center justify-between border-b border-slate-800/40">
+          {!isCollapsed ? (
+            <>
+              <Link href="/dashboard" className="flex items-center space-x-3 overflow-hidden">
+                <div className="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0">
+                  <Briefcase className="w-5 h-5 text-indigo-400" />
+                </div>
+                <span className="text-lg font-bold text-white tracking-tight whitespace-nowrap">
+                  Aztec PM
+                </span>
+              </Link>
 
-          {/* Toggle Button for Desktop */}
-          <button
-            onClick={toggleCollapse}
-            className="hidden md:flex items-center justify-center w-7 h-7 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors shrink-0"
-            title={isCollapsed ? "Expandir menú" : "Colapsar menú"}
-          >
-            {isCollapsed ? (
-              <ChevronRight className="w-4 h-4" />
-            ) : (
-              <ChevronLeft className="w-4 h-4" />
-            )}
-          </button>
+              <button
+                onClick={toggleCollapse}
+                className="hidden md:flex items-center justify-center w-7 h-7 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors shrink-0"
+                title="Colapsar menú"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={toggleCollapse}
+              className="w-full flex items-center justify-center py-2 text-indigo-400 hover:text-white bg-indigo-500/10 hover:bg-indigo-500/20 rounded-xl border border-indigo-500/20 transition-colors"
+              title="Expandir menú"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          )}
         </div>
 
         {/* Navigation Links */}
