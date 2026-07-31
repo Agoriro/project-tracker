@@ -4,7 +4,7 @@ WORKDIR /app
 
 # System dependencies for psycopg2 and asyncpg
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc libpq-dev && \
+    apt-get install -y --no-install-recommends gcc libpq-dev dos2unix && \
     rm -rf /var/lib/apt/lists/*
 
 # Python dependencies
@@ -16,7 +16,7 @@ COPY . .
 
 # Entrypoint: run Alembic migrations then start uvicorn
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN dos2unix /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 8000
 
